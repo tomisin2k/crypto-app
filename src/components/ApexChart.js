@@ -64,6 +64,28 @@ class ApexChart extends React.Component {
                             }
                         ]
                     }
+                },
+                // Tooltip configuration
+                tooltip: {
+                    theme: 'dark', // Set tooltip theme to dark
+                    style: {
+                        fontSize: '12px',
+                        fontFamily: 'Helvetica, Arial, sans-serif'
+                    },
+                    marker: {
+                        show: true
+                    },
+                    x: {
+                        show: true
+                    },
+                    y: {
+                        formatter: function (val) {
+                            return val + " units"; // Customize tooltip value display
+                        },
+                        style: {
+                            color: '#000' // Black color for tooltip text
+                        }
+                    }
                 }
             }
         };

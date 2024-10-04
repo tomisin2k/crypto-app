@@ -50,7 +50,8 @@ body {
   flex-wrap: wrap;
 }
 
-.main-1-a, .main-1-b {
+.main-1-a,
+.main-1-b {
   background-color: black;
   display: flex;
   justify-content: space-between;
@@ -65,7 +66,8 @@ body {
   transition: box-shadow 0.3s ease;
 }
 
-.main-1-a-text, .main-1-b-text {
+.main-1-a-text,
+.main-1-b-text {
   flex: 1;
 }
 
@@ -107,6 +109,32 @@ body {
   font-weight: bold;
 }
 
+.time-range-dropdown {
+  position: relative;
+}
+
+.time-range-dropdown select {
+  appearance: none;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.time-range-dropdown::after {
+  content: '▼';
+  font-size: 0.8rem;
+  color: #fff;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
 .barchart {
   background-color: #2a2a2a;
   border-radius: 8px;
@@ -138,18 +166,23 @@ body {
 }
 
 /* TopHolders and Dropdown styles */
+.holders-section {
+  width: 95%;
+  margin: 1rem auto;
+  position: relative;
+}
+
 .TopHolders {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.5rem;
-  padding: 0 2rem;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
 }
 
 .Top-Holder {
   font-size: 1.2rem;
   font-weight: bold;
-  flex: 0 0 auto;
 }
 
 .dropdown {
@@ -161,80 +194,64 @@ body {
   cursor: pointer;
   font-size: 1rem;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 2rem 0.75rem 1rem;
   background-color: #2a2a2a;
   border-radius: 4px;
+  transition: background-color 0.3s ease;
+  position: relative;
 }
 
 .Zara::after {
   content: '▼';
-  margin-left: 0.5rem;
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
   font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.dropdown.active .Zara::after {
+  transform: translateY(-50%) rotate(180deg);
 }
 
 .dropdown-menu {
   position: absolute;
+  top: 100%;
+  right: 0;
   background-color: #333;
-  min-width: 120px;
+  min-width: 150px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
   border-radius: 4px;
   display: none;
+  z-index: 1000;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.dropdown.active .dropdown-menu {
+  display: block;
+  max-height: 300px;
 }
 
 .dropdown-menu li {
   color: white;
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
   text-decoration: none;
   display: block;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .dropdown-menu li:hover {
   background-color: #444;
 }
 
-.dropdown.active .dropdown-menu {
-  display: block;
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #1a1a1a;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #4a4a4a;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #5a5a5a;
-}
-
-/* For Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #4a4a4a #1a1a1a;
-}
-
-/* Holders-Info styles */
 .Holders-Info {
-  display: flex;
-  flex-direction: column;
-  width: 95%;
-  height: 400px;
-  overflow: hidden;
   background-color: #1a1a1a;
-  box-sizing: border-box;
-  padding: 0;
-  margin: auto;
   border-radius: 8px;
+  overflow: hidden;
 }
 
 .info-header {
@@ -252,7 +269,7 @@ body {
 .info-content {
   overflow-y: auto;
   overflow-x: hidden;
-  height: calc(100% - 3.5rem);
+  max-height: calc(5 * 3rem);
   padding: 0;
 }
 
@@ -291,68 +308,155 @@ body {
   background-color: #2a2a2a;
 }
 
-/* Mobile adjustments */
+/* Scrollbar styles */
+.info-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.info-content::-webkit-scrollbar-track {
+  background: #2a2a2a;
+  border-radius: 10px;
+}
+
+.info-content::-webkit-scrollbar-thumb {
+  background: #8cc63f;
+  border-radius: 10px;
+}
+
+.info-content::-webkit-scrollbar-thumb:hover {
+  background: #78b12b;
+}
+
+/* Improved Mobile adjustments */
 @media (max-width: 768px) {
-  .navbar {
-    padding: 1rem;
+  .dashboard {
+    padding: 0.5rem;
   }
 
-  .TopHolders{
-    display: flex;
-    justify-content: space-between;
+  .navbar {
+    padding: 0.75rem 1rem;
   }
+
   .navbar p {
     font-size: 1rem;
   }
 
   .main {
     flex-direction: column;
+    padding: 0.5rem;
+    gap: 1rem;
+  }
+
+  .top-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .main-1-a,
+  .main-1-b {
+    width: 100%;
+    margin: 0;
     padding: 1rem;
   }
 
-  .main-1-a, .main-1-b {
-    width: 100%;
-    padding: 1rem;
-    margin: 0.5rem 0;
+  .main-1-a-text h3,
+  .main-1-b-text h3 {
+    font-size: 1rem;
+  }
+
+  .main-1-a-text .large-number,
+  .main-1-b-text .large-number {
+    font-size: 1.5rem;
+  }
+
+  .main-1-a-text .percentage,
+  .main-1-b-text .percentage {
+    font-size: 0.8rem;
   }
 
   .graph-image {
-    width: 6rem;
+    width: 5rem;
   }
 
-  .barchart, .main-2 {
-    height: 300px;
+  .helloAndToday {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .hello {
+    font-size: 1rem;
+  }
+
+  .time-range-dropdown {
+    width: 100%;
+  }
+
+  .time-range-dropdown select {
+    width: 100%;
+    padding: 0.5rem 2rem 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .barchart,
+  .main-2 {
+    height: auto;
+    min-height: 250px;
+  }
+
+  .main-2 p {
+    font-size: 1rem;
   }
 
   .TopHolders {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 0.5rem;
-    padding: 0 2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0;
+  }
+
+  .Top-Holder {
+    font-size: 1rem;
   }
 
   .dropdown {
-    margin-top: 1rem;
-    position: relative;
-    display: inline-block;
-    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .Zara {
+    width: 100%;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+
+  .dropdown-menu {
+    width: 100%;
+    position: static;
+    box-shadow: none;
+    border-top: 1px solid #444;
+  }
+
+  .dropdown-menu li {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .dropdown.active .dropdown-menu {
+    max-height: none;
   }
 
   .Holders-Info {
-    width: 100%;
-    height: auto;
-    max-height: 500px;
+    margin-top: 1rem;
   }
 
   .info-header {
-    padding: 0.75rem;
+    padding: 0.5rem;
   }
 
   .info-header p,
   .info-row p {
     padding: 0.25rem;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
   .holder-column {
@@ -367,40 +471,166 @@ body {
   .info-row {
     padding: 0.5rem;
   }
-}
 
-/* Additional adjustments for very small screens */
+  .info-content {
+    max-height: none;
+    height: auto;
+  }
+}
 @media (max-width: 480px) {
+  /* Reset and debug */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    width: 100vw;
+    overflow-x: hidden;
+  }
+
+  /* Adjust overall layout */
+  .dashboard {
+    width: 100%;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  .main {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  /* Adjust main content areas */
+  .top-row {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main-1-a,
+  .main-1-b {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    margin: 0.25rem 0;
+  }
+
+  .main-1-a-text,
+  .main-1-b-text {
+    width: 60%;
+  }
+
   .main-1-a-text h3,
   .main-1-b-text h3 {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
-   .TopHolders{
-    display: flex;
-    justify-content: space-between;
-  }
   .main-1-a-text .large-number,
   .main-1-b-text .large-number {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
   }
 
   .main-1-a-text .percentage,
   .main-1-b-text .percentage {
+    font-size: 0.75rem;
+  }
+
+  .main-1-a-image,
+  .main-1-b-image {
+    width: 35%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .graph-image {
+    width: 100%;
+    max-width: 80px;
+    height: auto;
+  }
+
+  /* Adjust registration section */
+  .helloAndToday {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem 0;
+  }
+
+  .hello {
+    font-size: 1rem;
+  }
+
+  .time-range-dropdown {
+    width: 50%;
+  }
+
+  .time-range-dropdown select {
+    width: 100%;
+    padding: 0.4rem;
     font-size: 0.8rem;
   }
 
-  .holder-column {
-    flex: 0 0 40%;
+  /* Adjust bar chart container */
+  .barchart {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
   }
 
-  .amount-column,
-  .rank-column {
-    flex: 0 0 30%;
+  /* Adjust holders section */
+  .holders-section {
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  .TopHolders {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .Top-Holder {
+    font-size: 1rem;
+  }
+
+  .Holders-Info {
+    width: 100%;
+    font-size: 0.75rem;
+  }
+
+  .info-header,
+  .info-row {
+    width: 100%;
+    display: flex;
+    padding: 0.4rem 0.2rem;
   }
 
   .info-header p,
   .info-row p {
-    font-size: 0.8rem;
+    font-size: 0.65rem;
+    padding: 0.2rem;
+  }
+
+  .holder-column {
+    flex: 0 0 50%;
+  }
+
+  .amount-column,
+  .rank-column {
+    flex: 0 0 25%;
+  }
+
+  .info-content {
+    width: 100%;
+    max-height: 180px;
+    overflow-y: auto;
   }
 }

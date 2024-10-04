@@ -1,28 +1,41 @@
-import React, { useState } from 'react';
-import Chart from 'react-apexcharts';
+import React, { useState, useMemo } from 'react';
 import ApexChart from './components/ApexChart';
 import BarChart from './components/BarChart';
 import './App.css';
 
 function App() {
     const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [selectedNetwork, setSelectedNetwork] = useState('Zara');
+    const [selectedTimeRange, setSelectedTimeRange] = useState('24 hours'); // State for time range
 
     const toggleDropdown = () => {
         setDropdownVisible(!dropdownVisible);
     };
 
-    // Generate 50 holder info entries with updated holder addresses
-    const holderInfos = Array.from({ length: 50 }, (_, index) => ({
-        holder: `0xBnbHolder${index.toString().padStart(44, '0')}`,
-        amount: Math.floor(Math.random() * 1000),
-        rank: index + 1
-    }));
+    const handleNetworkSelect = (network) => {
+        setSelectedNetwork(network);
+        setDropdownVisible(false);
+    };
+
+    const handleTimeRangeSelect = (range) => {
+        setSelectedTimeRange(range);
+    };
+
+    // Generate 50 holder info entries with dynamic holder addresses
+    const holderInfos = useMemo(() => {
+        return Array.from({ length: 50 }, (_, index) => ({
+            holder: `0x${selectedNetwork}Holder${index.toString().padStart(44, '0')}`,
+            amount: Math.floor(Math.random() * 1000),
+            rank: index + 1
+        }));
+    }, [selectedNetwork]);
 
     return (
         <div className="dashboard">
             <div className="navbar">
                 <p>ZNS Connect</p>
             </div>
+
             <div className="main">
                 <div className="main-1">
                     <div className="top-row">
@@ -50,11 +63,21 @@ function App() {
 
                     <div className="helloAndToday">
                         <div><p className="hello">Registrations</p></div>
-                        <div><p className="hello">Today</p></div>
+                        <div className="time-range-dropdown">
+                            <select value={selectedTimeRange} onChange={(e) => handleTimeRangeSelect(e.target.value)}>
+                                <option value="1 hour">1 hour</option>
+                                <option value="6 hours">6 hours</option>
+                                <option value="24 hours">24 hours</option>
+                                <option value="1 day">1 day</option>
+                                <option value="7 days">7 days</option>
+                                <option value="30 days">30 days</option>
+                                <option value="all time">All Time</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div className="barchart">
-                        <BarChart />
+                        <BarChart timeRange={selectedTimeRange} />
                     </div>
                 </div>
 
@@ -65,34 +88,39 @@ function App() {
                     </div>
                 </div>
             </div>
-            
-            <div className="TopHolders">
-                <div><p className="Top-Holder">Top Holders</p></div>
-                <div className={`dropdown ${dropdownVisible ? 'active' : ''}`}>
-                    <div className="Zara" onClick={toggleDropdown}>Zara</div>
-                    <ul className="dropdown-menu">
-                        <li>BNB</li>
-                        <li>BLAST</li>
-                        <li>SCROLL</li>
-                        <li>POLYGON</li>
-                    </ul>
-                </div>
-            </div>
 
-            <div className="Holders-Info">
-                <div className="info-header">
-                    <p className="holder-column">Holder</p>
-                    <p className="amount-column">Amount</p>
-                    <p className="rank-column">Rank</p>
+            <div className="holders-section">
+                <div className="TopHolders">
+                    <div><p className="Top-Holder">Top Holders</p></div>
+                    <div className={`dropdown ${dropdownVisible ? 'active' : ''}`}>
+                        <div className="Zara" onClick={toggleDropdown}>{selectedNetwork}</div>
+                        {dropdownVisible && (
+                            <ul className="dropdown-menu">
+                                <li onClick={() => handleNetworkSelect('Zara')}>Zara</li>
+                                <li onClick={() => handleNetworkSelect('BNB')}>BNB</li>
+                                <li onClick={() => handleNetworkSelect('BLAST')}>BLAST</li>
+                                <li onClick={() => handleNetworkSelect('SCROLL')}>SCROLL</li>
+                                <li onClick={() => handleNetworkSelect('POLYGON')}>POLYGON</li>
+                            </ul>
+                        )}
+                    </div>
                 </div>
-                <div className="info-content">
-                    {holderInfos.map((info, index) => (
-                        <div key={index} className="info-row">
-                            <p className="holder-column">{info.holder}</p>
-                            <p className="amount-column">{info.amount}</p>
-                            <p className="rank-column">{info.rank}</p>
-                        </div>
-                    ))}
+
+                <div className="Holders-Info">
+                    <div className="info-header">
+                        <p className="holder-column">Holder</p>
+                        <p className="amount-column">Amount</p>
+                        <p className="rank-column">Rank</p>
+                    </div>
+                    <div className="info-content">
+                        {holderInfos.map((info, index) => (
+                            <div key={index} className="info-row">
+                                <p className="holder-column">{info.holder}</p>
+                                <p className="amount-column">{info.amount}</p>
+                                <p className="rank-column">{info.rank}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
