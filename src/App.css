@@ -1,38 +1,406 @@
-.App {
-  text-align: center;
+/* Base styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: black;
+  color: #fff;
+  overflow-x: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.dashboard {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  max-width: 100vw;
+}
+
+.navbar {
+  background-color: black;
+  padding: 1rem 2rem;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.navbar p {
+  margin: 0;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  padding: 1.5rem 2rem;
+  gap: 1.5rem;
+  height: auto;
+  overflow: visible;
+}
+
+.main-1 {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.main-1-a, .main-1-b {
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 8px;
+  flex: 1;
+  min-width: 250px;
+  margin: 0.75rem;
+  border: 1px solid transparent;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.6);
+  transition: box-shadow 0.3s ease;
+}
+
+.main-1-a-text, .main-1-b-text {
+  flex: 1;
+}
+
+.main-1-a-text h3,
+.main-1-b-text h3 {
+  font-size: 1.1rem;
   color: white;
+  margin-bottom: 0.5rem;
 }
 
-.App-link {
-  color: #61dafb;
+.main-1-a-text .large-number,
+.main-1-b-text .large-number {
+  font-size: 2rem;
+  font-weight: 400;
+  color: #8cc63f;
+  margin: 0.5rem 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.main-1-a-text .percentage,
+.main-1-b-text .percentage {
+  color: #8cc63f;
+  font-size: 0.9rem;
+}
+
+.graph-image {
+  width: 8.5rem;
+  margin-left: 1rem;
+}
+
+.helloAndToday {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0rem;
+}
+
+.hello {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.barchart {
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 1.5rem;
+  flex: 1;
+  min-height: 200px;
+  overflow: hidden;
+}
+
+.main-2 {
+  flex: 1;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  padding: 1.5rem;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-2 p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.apex-chart-container {
+  flex: 1;
+  overflow: hidden;
+}
+
+/* TopHolders and Dropdown styles */
+.TopHolders {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding: 0 2rem;
+}
+
+.Top-Holder {
+  font-size: 1.2rem;
+  font-weight: bold;
+  flex: 0 0 auto;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.Zara {
+  cursor: pointer;
+  font-size: 1rem;
+  color: white;
+  padding: 0.5rem 1rem;
+  background-color: #2a2a2a;
+  border-radius: 4px;
+}
+
+.Zara::after {
+  content: '▼';
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.dropdown-menu {
+  position: absolute;
+  background-color: #333;
+  min-width: 120px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  border-radius: 4px;
+  display: none;
+}
+
+.dropdown-menu li {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background-color: #444;
+}
+
+.dropdown.active .dropdown-menu {
+  display: block;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4a4a4a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5a5a5a;
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #4a4a4a #1a1a1a;
+}
+
+/* Holders-Info styles */
+.Holders-Info {
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  height: 400px;
+  overflow: hidden;
+  background-color: #1a1a1a;
+  box-sizing: border-box;
+  padding: 0;
+  margin: auto;
+  border-radius: 8px;
+}
+
+.info-header {
+  display: flex;
+  width: 100%;
+  background-color: #333;
+  padding: 1rem;
+  font-weight: bold;
+  border-bottom: 2px solid #444;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.info-content {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100% - 3.5rem);
+  padding: 0;
+}
+
+.info-header p,
+.info-row p {
+  margin: 0;
+  padding: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.holder-column {
+  flex: 0 0 60%;
+}
+
+.amount-column,
+.rank-column {
+  flex: 0 0 20%;
+  text-align: right;
+}
+
+.info-row {
+  display: flex;
+  width: 100%;
+  padding: 1rem;
+  border-bottom: 1px solid #3a3a3a;
+  transition: background-color 0.3s ease;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-row:hover {
+  background-color: #2a2a2a;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  .TopHolders{
+    display: flex;
+    justify-content: space-between;
+  }
+  .navbar p {
+    font-size: 1rem;
+  }
+
+  .main {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .main-1-a, .main-1-b {
+    width: 100%;
+    padding: 1rem;
+    margin: 0.5rem 0;
+  }
+
+  .graph-image {
+    width: 6rem;
+  }
+
+  .barchart, .main-2 {
+    height: 300px;
+  }
+
+  .TopHolders {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    padding: 0 2rem;
+  }
+
+  .dropdown {
+    margin-top: 1rem;
+    position: relative;
+    display: inline-block;
+    flex: 0 0 auto;
+  }
+
+  .Holders-Info {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+  }
+
+  .info-header {
+    padding: 0.75rem;
+  }
+
+  .info-header p,
+  .info-row p {
+    padding: 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  .holder-column {
+    flex: 0 0 50%;
+  }
+
+  .amount-column,
+  .rank-column {
+    flex: 0 0 25%;
+  }
+
+  .info-row {
+    padding: 0.5rem;
+  }
+}
+
+/* Additional adjustments for very small screens */
+@media (max-width: 480px) {
+  .main-1-a-text h3,
+  .main-1-b-text h3 {
+    font-size: 1rem;
+  }
+
+   .TopHolders{
+    display: flex;
+    justify-content: space-between;
+  }
+  .main-1-a-text .large-number,
+  .main-1-b-text .large-number {
+    font-size: 1.5rem;
+  }
+
+  .main-1-a-text .percentage,
+  .main-1-b-text .percentage {
+    font-size: 0.8rem;
+  }
+
+  .holder-column {
+    flex: 0 0 40%;
+  }
+
+  .amount-column,
+  .rank-column {
+    flex: 0 0 30%;
+  }
+
+  .info-header p,
+  .info-row p {
+    font-size: 0.8rem;
   }
 }
